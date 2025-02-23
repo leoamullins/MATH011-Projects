@@ -76,5 +76,5 @@ for i in range(num_iterations):
     im = axes.imshow(s.grid, interpolation="None", aspect="equal", cmap = colormap)
     plots.append([im])
 
-anim = ArtistAnimation(figure, plots, interval = 300)
+anim = ArtistAnimation(figure, plots, interval = 100)
 plt.show()

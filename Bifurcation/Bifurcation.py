@@ -25,17 +25,19 @@ def periodicity(y0, f, epsilon=0.0001, max_iter=1000):
 def generate_bifurcation_diagram(g_min=2, g_max=15, n_values=3000, preiterations=500, n_points=200):
     gammas = np.linspace(g_min, g_max, n_values)
     array_coords = np.zeros((gammas.size, n_points))
-    periodic = []
-
-    # Generates coords for each gamma
     
-    for i in range(gammas.size):
-            coords = [iterate(lambda x: h(x, gammas[i]), 1/2, preiterations + m) for m in range(n_points)]
-            array_coords[i, :] = coords
+    # Generates coords for each gamma
 
-    gamma_values = [gammas[i] for i in range(gammas.size) for _ in range(n_points)]
-    coordinates = array_coords.reshape((len(gamma_values),))
-  
+    for i, g in enumerate(gammas):
+        x = 0.5
+        for _ in range(preiterations):
+            x = h (x, g)
+        for m in range(n_points): 
+            x = h(x, g)
+            array_coords[i, m] = x
+
+    gamma_values = np.repeat(gammas, n_points)
+    coordinates = array_coords.flatten()
 
     plt.figure(figsize=(10, 6))
     plt.scatter(gamma_values, coordinates, s=0.05, c=coordinates, cmap='viridis', alpha=0.5)
